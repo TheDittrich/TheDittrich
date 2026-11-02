@@ -42,10 +42,7 @@ jobs:
           plugin_languages: yes
           plugin_languages_limit: 8
           plugin_languages_ignored: html, css, shell, powershell
-          plugin_habits: yes
-          plugin_habits_from: 200
-          plugin_habits_charts: yes
-          plugin_habits_days: 30
+          # plugin_habits fica de fora: ele lê só eventos públicos e, sem eles, renderiza "Unexpected error".
 
       # A cobrinha lê o gráfico público de contribuições, que já inclui as privadas
       # quando "Include private contributions" está ligado no perfil.

@@ -23,7 +23,9 @@ jobs:
     steps:
       # METRICS_TOKEN: token clássico com escopos `repo` e `read:user`.
       # É ele que deixa as métricas enxergarem os repositórios privados.
+      # Sem o token (ou com ele expirado) a cobrinha continua saindo.
       - name: Métricas
+        continue-on-error: true
         uses: lowlighter/metrics@latest
         with:
           token: ${{ secrets.METRICS_TOKEN }}
@@ -56,7 +58,12 @@ jobs:
             dist/github-snake-dark.svg?palette=github-dark
 
       - name: Junta as imagens
-        run: sudo cp /metrics_renders/metrics.svg dist/metrics.svg
+        run: |
+          if [ -f /metrics_renders/metrics.svg ]; then
+            sudo cp /metrics_renders/metrics.svg dist/metrics.svg
+          else
+            echo "::warning::metrics.svg não foi gerado; confira o segredo METRICS_TOKEN"
+          fi
 
       - name: Publica na branch output
         uses: crazy-max/ghaction-github-pages@v4
